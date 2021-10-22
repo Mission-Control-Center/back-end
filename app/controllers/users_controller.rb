@@ -14,6 +14,12 @@ class UsersController < ApplicationController
   end
 
   def update
+    @user = User.update(user_params)
+    if @user.save
+      render json: @user
+    else
+      render json: { 'Error': @user.errors.full_message }
+    end
   end
   
   def delete
