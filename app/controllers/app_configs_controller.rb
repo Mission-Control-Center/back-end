@@ -21,15 +21,6 @@ class AppConfigsController < ApplicationController
       render json: { 'Error': @app_config.errors.full_message }
     end
   end
-
-  def update
-    @app_config = AppConfig.find_by(params[:id])
-    if @app_config.update
-      render json: @app_config
-    else
-      render json: { 'Error': @app_config.errors.full_message }
-    end
-  end
   
   def destroy
     @app_config = AppConfig.find_by(params[:id])

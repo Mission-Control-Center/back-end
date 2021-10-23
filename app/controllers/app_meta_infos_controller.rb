@@ -14,31 +14,40 @@ class AppMetaInfosController < ApplicationController
   end
 
   def create
-    @app_meta_infos = AppMetaInfo.new(app_meta_infos_params)
-    if @app_meta_infos.save
-      render json: @app_meta_infos
+    @app_meta_info = AppMetaInfo.new(app_meta_info_params)
+    if @app_meta_info.save
+      render json: @app_meta_info
     else
-      render json: { 'Error': @app_meta_infos.errors.full_message }
+      render json: { 'Error': @app_meta_info.errors.full_message }
     end
   end
 
   def update
-    @app_meta_infos = AppMetaInfo.find_by(params[:id])
-    if @app_meta_infos.update
-      render json: @app_meta_infos
+    @app_meta_info = AppMetaInfo.find_by(params[:id])
+    if @app_meta_info.update(app_meta_info_params)
+      @app_config = AppConfig.find_by(id: @app_meta_info.id)
+      @app_config.version = update_version(@app_config.version)
+      @app_config.save
+      render json: @app_config
     else
       render json: { 'Error': @app_meta_infos.errors.full_message }
     end
   end
   
   def destroy
-    @app_meta_infos = AppMetaInfo.find_by(params[:id])
-    @app_meta_infos&.destroy
+    @app_meta_info = AppMetaInfo.find_by(params[:id])
+    @app_meta_info&.destroy
   end
 
   private 
   
-  def app_meta_infos_params
-    params.require(:app_meta_infos).permit(:name, :owner_id, :manager_id)
+  def app_meta_info_params
+    params.require(:app_meta_info).permit(:name, :owner_id, :manager_id)
+  end
+
+  def update_version(version)
+    parts = version.split('.', -1)
+    parts[0] = parts[0].to_i + 1
+    parts.join('.')
   end
 end

@@ -3,6 +3,7 @@ class CreateAppMetaInfos < ActiveRecord::Migration[6.1]
     create_table :app_meta_infos do |t|
       t.references :owner, null: false
       t.references :manager, null: false
+      t.references :app_config, null: false, foreign_key: true
       t.string :name
 
       t.timestamps

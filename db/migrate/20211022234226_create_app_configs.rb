@@ -4,7 +4,7 @@ class CreateAppConfigs < ActiveRecord::Migration[6.1]
       t.string :version
       t.boolean :is_deleted
       t.references :parent, foreign_key: { to_table: :app_configs }
-      
+    
       t.timestamps
     end
   end
