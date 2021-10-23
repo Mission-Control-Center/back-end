@@ -7,3 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 User.create(username: 'firstUser', email: 'seed@user.com', password: 'soy beans')
+AppConfig.create(version: '2.0')
+
+permission = Permission.create([{ name: 'View' }, { name: 'Edit' }, { name: 'Share' }])
+role = Role.create([{ name: 'Dev' }, { name: 'Manager' }, { name: 'CEO' }])
+
+RolePermission.create(permission_id: permission.first.id, role_id: role.first.id)

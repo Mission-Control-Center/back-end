@@ -14,15 +14,15 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.update(user_params)
-    if @user.save
+    @user = User.find_by(params[:id])
+    if @user.update
       render json: @user
     else
       render json: { 'Error': @user.errors.full_message }
     end
   end
   
-  def delete
+  def destroy
     @user = User.find_by(params[:id])
     @user&.destroy
   end
