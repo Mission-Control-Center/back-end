@@ -4,6 +4,15 @@ class AppMetaInfosController < ApplicationController
     render json: @app_meta_infos
   end
 
+  def show
+    @app_meta_info = AppMetaInfo.find_by(params[:id])
+    if @app_meta_info
+      render json: @app_meta_info
+    else
+      render json: { 'Error': 'AppMetaInfo not found' }
+    end
+  end
+
   def create
     @app_meta_infos = AppMetaInfo.new(app_meta_infos_params)
     if @app_meta_infos.save

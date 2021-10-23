@@ -4,6 +4,15 @@ class PermissionsController < ApplicationController
     render json: @permissions
   end
 
+  def show
+    @permission = Permission.find_by(params[:id])
+    if @permission
+      render json: @permission
+    else
+      render json: { 'Error': 'Permission not found' }
+    end
+  end
+
   def create
     @permission = Permission.new(permission_params)
     if @permission.save

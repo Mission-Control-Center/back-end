@@ -4,6 +4,15 @@ class RolesController < ApplicationController
     render json: @roles
   end
 
+  def show
+    @role = Role.find_by(params[:id])
+    if @role
+      render json: @role
+    else
+      render json: { 'Error': 'Role not found' }
+    end
+  end
+
   def create
     @role = Role.new(role_params)
     if @role.save
