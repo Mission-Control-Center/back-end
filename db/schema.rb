@@ -18,8 +18,10 @@ ActiveRecord::Schema.define(version: 2021_10_23_130654) do
   create_table "app_configs", force: :cascade do |t|
     t.string "version"
     t.boolean "is_deleted"
+    t.bigint "parent_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["parent_id"], name: "index_app_configs_on_parent_id"
   end
 
   create_table "app_meta_infos", force: :cascade do |t|
@@ -70,6 +72,7 @@ ActiveRecord::Schema.define(version: 2021_10_23_130654) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "app_configs", "app_configs", column: "parent_id"
   add_foreign_key "app_meta_infos", "users", column: "manager_id"
   add_foreign_key "app_meta_infos", "users", column: "owner_id"
   add_foreign_key "app_roles", "app_configs"
