@@ -1,9 +1,14 @@
 Rails.application.routes.draw do
-  resources :roles
-  resources :permissions
-  resources :role_permissions
-  resources :app_configs
   resources :users
-  resources :app_meta_infos
-  resources :app_roles
+  
+  resources :app_configs, only: %i[index show create destroy restore] do
+    get 'restore', to: 'app_configs#restore', on: :member
+    resources :app_meta_infos, only: %i[show create update]
+    resources :app_roles, only: %i[index show create destroy]
+  end
+
+  resources :roles, only: %i[index show create update destroy] do
+    resources :role_permissions
+  end
+  resources :permissions, only: %i[index show create update destroy]
 end

@@ -24,7 +24,7 @@ class RolePermissionsController < ApplicationController
 
   def update
     @role_permission = RolePermission.find_by(params[:id])
-    if @role_permission.update
+    if @role_permission.update(role_permission_params)
       render json: @role_permission
     else
       render json: { 'Error': @role_permission.errors.full_message }

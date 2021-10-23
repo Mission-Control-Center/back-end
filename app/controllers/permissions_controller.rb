@@ -24,7 +24,7 @@ class PermissionsController < ApplicationController
 
   def update
     @permission = Permission.find_by(params[:id])
-    if @permission.update
+    if @permission.update(permission_params)
       render json: @permission
     else
       render json: { 'Error': @permission.errors.full_message }

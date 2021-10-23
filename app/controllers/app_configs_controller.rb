@@ -1,6 +1,6 @@
 class AppConfigsController < ApplicationController
   def index
-    @app_configs = AppConfig.all
+    @app_configs = AppConfig.where(is_deleted: false)
     render json: @app_configs
   end
 
