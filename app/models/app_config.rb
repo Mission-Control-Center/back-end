@@ -4,4 +4,7 @@ class AppConfig < ApplicationRecord
   validates :version, presence: true
 
   has_one :app_meta_info
+  
+  has_many :app_roles
+  has_many :roles, through: :app_roles
 end
