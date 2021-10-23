@@ -10,10 +10,61 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_22_220848) do
+ActiveRecord::Schema.define(version: 2021_10_23_130654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "app_configs", force: :cascade do |t|
+    t.string "version"
+    t.boolean "is_deleted"
+    t.bigint "parent_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["parent_id"], name: "index_app_configs_on_parent_id"
+  end
+
+  create_table "app_meta_infos", force: :cascade do |t|
+    t.bigint "owner_id", null: false
+    t.bigint "manager_id", null: false
+    t.bigint "app_config_id", null: false
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["app_config_id"], name: "index_app_meta_infos_on_app_config_id"
+    t.index ["manager_id"], name: "index_app_meta_infos_on_manager_id"
+    t.index ["owner_id"], name: "index_app_meta_infos_on_owner_id"
+  end
+
+  create_table "app_roles", force: :cascade do |t|
+    t.bigint "app_config_id", null: false
+    t.bigint "role_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["app_config_id"], name: "index_app_roles_on_app_config_id"
+    t.index ["role_id"], name: "index_app_roles_on_role_id"
+  end
+
+  create_table "permissions", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "role_permissions", force: :cascade do |t|
+    t.bigint "role_id", null: false
+    t.bigint "permission_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["permission_id"], name: "index_role_permissions_on_permission_id"
+    t.index ["role_id"], name: "index_role_permissions_on_role_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email"
@@ -23,4 +74,12 @@ ActiveRecord::Schema.define(version: 2021_10_22_220848) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "app_configs", "app_configs", column: "parent_id"
+  add_foreign_key "app_meta_infos", "app_configs"
+  add_foreign_key "app_meta_infos", "users", column: "manager_id"
+  add_foreign_key "app_meta_infos", "users", column: "owner_id"
+  add_foreign_key "app_roles", "app_configs"
+  add_foreign_key "app_roles", "roles"
+  add_foreign_key "role_permissions", "permissions"
+  add_foreign_key "role_permissions", "roles"
 end
