@@ -24,7 +24,7 @@ class RolesController < ApplicationController
 
   def update
     @role = Role.find_by(params[:id])
-    if @role.update
+    if @role.update(role_params)
       render json: @role
     else
       render json: { 'Error': @role.errors.full_message }
