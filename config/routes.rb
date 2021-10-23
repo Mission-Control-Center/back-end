@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   resources :role_permissions
   resources :app_configs
   resources :users
+  resources :app_meta_infos
 end
