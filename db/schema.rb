@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_23_003607) do
+ActiveRecord::Schema.define(version: 2021_10_23_115719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(version: 2021_10_23_003607) do
     t.boolean "is_deleted"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "app_meta_infos", force: :cascade do |t|
+    t.bigint "owner_id", null: false
+    t.bigint "manager_id", null: false
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["manager_id"], name: "index_app_meta_infos_on_manager_id"
+    t.index ["owner_id"], name: "index_app_meta_infos_on_owner_id"
   end
 
   create_table "permissions", force: :cascade do |t|
@@ -51,6 +61,8 @@ ActiveRecord::Schema.define(version: 2021_10_23_003607) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "app_meta_infos", "users", column: "manager_id"
+  add_foreign_key "app_meta_infos", "users", column: "owner_id"
   add_foreign_key "role_permissions", "permissions"
   add_foreign_key "role_permissions", "roles"
 end
