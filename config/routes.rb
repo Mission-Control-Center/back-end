@@ -8,8 +8,7 @@ Rails.application.routes.draw do
     resources :app_roles, only: %i[index show create destroy]
   end
 
-  resources :roles, only: %i[index show create update destroy] do
-    resources :role_permissions
-  end
+  resources :roles, only: %i[index show create update destroy]
+  resources :role_permissions
   resources :permissions, only: %i[index show create update destroy]
 end

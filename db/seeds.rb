@@ -14,6 +14,8 @@ permission = Permission.create([{ name: 'View' }, { name: 'Edit' }, { name: 'Sha
 role = Role.create([{ name: 'Dev' }, { name: 'Manager' }, { name: 'CEO' }])
 
 RolePermission.create(permission_id: permission.first.id, role_id: role.first.id)
+RolePermission.create(permission_id: permission.second.id, role_id: role.second.id)
+RolePermission.create(permission_id: permission[2].id, role_id: role.first.id)
 
 AppRole.create(app_config_id: app_config.id, role_id: role.first.id)
 
