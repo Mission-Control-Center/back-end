@@ -15,10 +15,23 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    
     if @user.save
-      render json: @user
+      token = encode_token({user_id: @user.id})
+      render json: {user: @user, token: token}
     else
-      render json: { 'Error': @user.errors.full_message }
+      render json: {error: 'User could not be created'}
+    end
+  end
+
+  def login
+    @user = User.find_by(email: params[:email])
+
+    if @user&.authenticate(params[:password])
+      token = encode_token({user_id: @user.id})
+      render json: {user: @user, token: token}
+    else
+      render json: {error: 'Invalid username or password'}
     end
   end
 
