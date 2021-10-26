@@ -40,7 +40,7 @@ class AppRolesController < ApplicationController
       @app_config = AppConfig.find_by_id(@app_role.app_config_id)
       @app_config.version = update_version(@app_config.version)
       @app_config.save
-      @app_role.destory
+      @app_role.destroy
       render json: { 'Success': 'App Role deleted and Config version updated' }
     else
       render json: { 'Failure': 'AppRole not found' }

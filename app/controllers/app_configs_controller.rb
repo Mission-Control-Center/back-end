@@ -4,6 +4,11 @@ class AppConfigsController < ApplicationController
     render json: @app_configs
   end
 
+  def deleted_index
+    @app_configs = AppConfig.where(is_deleted: true)
+    render json: @app_configs
+  end
+
   def show
     @app_config = AppConfig.find_by(params[:id])
     if @app_config

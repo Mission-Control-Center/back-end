@@ -27,7 +27,7 @@ class AppMetaInfosController < ApplicationController
   def update
     @app_meta_info = AppMetaInfo.find_by(params[:id])
     if @app_meta_info.update(app_meta_info_params)
-      @app_config = AppConfig.find_by(id: @app_meta_info.id)
+      @app_config = AppConfig.find_by(id: @app_meta_info.app_config_id)
       @app_config.version = update_version(@app_config.version)
       @app_config.save
       render json: @app_config
