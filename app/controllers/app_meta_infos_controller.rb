@@ -14,7 +14,9 @@ class AppMetaInfosController < ApplicationController
   end
 
   def create
+    @app_config = AppConfig.create(version: '1.0.0')
     @app_meta_info = AppMetaInfo.new(app_meta_info_params)
+    @app_meta_info.app_config_id = @app_config.id
     if @app_meta_info.save
       render json: @app_meta_info
     else

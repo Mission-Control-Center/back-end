@@ -7,7 +7,10 @@ Rails.application.routes.draw do
     resources :app_meta_infos, only: %i[show create update]
     resources :app_roles, only: %i[index show create destroy]
   end
-
+  
+  resources :app_meta_infos, only: %i[index show create update]
+  resources :app_roles, only: %i[index show create destroy]
+  
   resources :roles, only: %i[index show create update destroy]
   resources :role_permissions
   resources :permissions, only: %i[index show create update destroy]

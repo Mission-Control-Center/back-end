@@ -10,7 +10,7 @@ class AppConfig < ApplicationRecord
 
   has_many :app_roles
   has_many :roles, through: :app_roles
-
+  
   def most_recent?
     child.nil?
   end
